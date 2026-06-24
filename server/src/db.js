@@ -1,0 +1,386 @@
+import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto'
+import { mkdirSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { DatabaseSync } from 'node:sqlite'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+export const bodyParts = ['胸部', '背部', '腿部', '肩部', '手臂', '核心']
+
+const exerciseImageUrls = {
+  坐姿推胸: '/exercise-images/seated-chest-press.svg',
+  蝴蝶机夹胸: '/exercise-images/pec-deck-fly.svg',
+  上斜推胸机: '/exercise-images/incline-chest-press.svg',
+  高位下拉: '/exercise-images/lat-pulldown.svg',
+  坐姿划船: '/exercise-images/seated-row.svg',
+  辅助引体向上: '/exercise-images/assisted-pull-up.svg',
+  腿举机: '/exercise-images/leg-press.svg',
+  腿屈伸: '/exercise-images/leg-extension.svg',
+  俯卧腿弯举: '/exercise-images/lying-leg-curl.svg',
+  坐姿腿弯举: '/exercise-images/seated-leg-curl.svg',
+  髋外展机: '/exercise-images/hip-abduction.svg',
+  坐姿推肩: '/exercise-images/shoulder-press.svg',
+  坐姿侧平举机: '/exercise-images/lateral-raise-machine.svg',
+  反向蝴蝶机: '/exercise-images/reverse-pec-deck.svg',
+  绳索下压: '/exercise-images/cable-pushdown.svg',
+  牧师椅弯举机: '/exercise-images/preacher-curl-machine.svg',
+  绳索弯举: '/exercise-images/cable-curl.svg',
+  器械卷腹: '/exercise-images/ab-crunch-machine.svg',
+  罗马椅背伸: '/exercise-images/roman-chair-back-extension.svg',
+  绳索跪姿卷腹: '/exercise-images/cable-kneeling-crunch.svg',
+}
+
+function getImageUrl(name, fallback = '') {
+  return exerciseImageUrls[name] || fallback
+}
+
+const seedExercises = [
+  {
+    name: '坐姿推胸',
+    bodyPart: '胸部',
+    targetMuscles: ['胸大肌', '肱三头肌', '三角肌前束'],
+    equipment: '坐姿推胸机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整座椅，让把手与胸部中线接近同高，背部贴紧靠垫。',
+    steps: ['双脚踩稳地面，肩胛微微后收。', '握住把手，向前推到手臂接近伸直。', '控制速度还原，感受胸部被拉伸。'],
+    breathing: '推起时呼气，还原时吸气。',
+    commonMistakes: ['耸肩推起', '手臂完全锁死', '重量过大导致身体离开靠垫'],
+    safetyNotes: ['先用轻重量熟悉轨迹。', '肩部疼痛时停止练习。'],
+  },
+  {
+    name: '蝴蝶机夹胸',
+    bodyPart: '胸部',
+    targetMuscles: ['胸大肌'],
+    equipment: '蝴蝶机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整座椅，让上臂与肩部大致同高，胸口打开但不要过度后仰。',
+    steps: ['背部贴紧靠垫，双手或前臂贴住把手。', '向身体中线夹合，停顿感受胸部收缩。', '慢慢打开到胸部有拉伸感。'],
+    breathing: '夹合时呼气，打开时吸气。',
+    commonMistakes: ['用手腕发力', '打开幅度过大拉扯肩关节', '身体前倾借力'],
+    safetyNotes: ['动作全程保持肩膀放松。'],
+  },
+  {
+    name: '上斜推胸机',
+    bodyPart: '胸部',
+    targetMuscles: ['上胸', '三角肌前束', '肱三头肌'],
+    equipment: '上斜推胸机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '坐稳后让把手位于上胸附近，肩胛后收，腰背自然贴靠。',
+    steps: ['握紧把手，手肘略低于肩。', '沿器械轨迹向上前方推起。', '慢速下放到上胸有拉伸感。'],
+    breathing: '推起呼气，下放吸气。',
+    commonMistakes: ['肩膀前顶', '下放太快', '手肘外展过大'],
+    safetyNotes: ['肩关节不适者降低重量和幅度。'],
+  },
+  {
+    name: '高位下拉',
+    bodyPart: '背部',
+    targetMuscles: ['背阔肌', '肱二头肌', '斜方肌下束'],
+    equipment: '高位下拉器',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整腿垫压住大腿，坐稳后双手略宽于肩握杠。',
+    steps: ['挺胸坐直，肩膀下沉。', '把横杠拉向上胸位置。', '控制还原到手臂伸展但肩不耸起。'],
+    breathing: '下拉呼气，还原吸气。',
+    commonMistakes: ['身体后仰过多', '用手臂硬拉', '横杠拉到脖子后方'],
+    safetyNotes: ['不要把横杠拉到颈后。'],
+  },
+  {
+    name: '坐姿划船',
+    bodyPart: '背部',
+    targetMuscles: ['背阔肌', '菱形肌', '斜方肌中束'],
+    equipment: '坐姿划船机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '脚踩踏板，膝盖微弯，背部保持自然挺直。',
+    steps: ['肩膀放松，双臂向前伸展。', '手肘贴近身体向后拉。', '肩胛骨夹紧后缓慢还原。'],
+    breathing: '拉回呼气，还原吸气。',
+    commonMistakes: ['弓背借力', '身体大幅前后摆动', '耸肩'],
+    safetyNotes: ['腰背不适时减轻重量。'],
+  },
+  {
+    name: '辅助引体向上',
+    bodyPart: '背部',
+    targetMuscles: ['背阔肌', '肱二头肌'],
+    equipment: '辅助引体向上机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '选择合适辅助重量，辅助越大动作越轻松，双手握稳把手。',
+    steps: ['膝盖跪在辅助垫上，身体保持稳定。', '肩膀下沉后向上拉起身体。', '缓慢下降到手臂伸展。'],
+    breathing: '拉起呼气，下降吸气。',
+    commonMistakes: ['身体晃动', '只用手臂拉', '下降失控'],
+    safetyNotes: ['上下器械时扶稳把手。'],
+  },
+  {
+    name: '腿举机',
+    bodyPart: '腿部',
+    targetMuscles: ['股四头肌', '臀大肌', '腘绳肌'],
+    equipment: '腿举机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '背部贴紧靠垫，双脚与肩同宽踩在踏板中部。',
+    steps: ['解锁安全把手，膝盖对准脚尖。', '向前蹬起踏板，膝盖不要完全锁死。', '慢慢下放到大腿接近身体。'],
+    breathing: '蹬起呼气，下放吸气。',
+    commonMistakes: ['膝盖内扣', '下放过深导致骨盆卷起', '膝盖锁死'],
+    safetyNotes: ['确认安全锁使用方法后再加重量。'],
+  },
+  {
+    name: '腿屈伸',
+    bodyPart: '腿部',
+    targetMuscles: ['股四头肌'],
+    equipment: '腿屈伸机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整靠背和滚垫，让膝关节对准器械转轴，滚垫压在脚踝上方。',
+    steps: ['坐稳抓住把手。', '伸直膝盖抬起滚垫，顶部短暂停顿。', '控制下放，不要让重量片猛烈碰撞。'],
+    breathing: '抬起呼气，下放吸气。',
+    commonMistakes: ['摆动身体', '速度过快', '膝盖位置没有对准转轴'],
+    safetyNotes: ['膝盖不适时减少幅度或停止。'],
+  },
+  {
+    name: '俯卧腿弯举',
+    bodyPart: '腿部',
+    targetMuscles: ['腘绳肌'],
+    equipment: '俯卧腿弯举机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '趴在垫上，让膝盖接近转轴，滚垫放在脚踝后方。',
+    steps: ['髋部贴紧垫子。', '弯曲膝盖把滚垫向臀部方向带。', '慢慢伸直回到起点。'],
+    breathing: '弯举呼气，还原吸气。',
+    commonMistakes: ['臀部翘起', '借助惯性甩动', '下放过快'],
+    safetyNotes: ['腰部不适时优先调整重量和姿势。'],
+  },
+  {
+    name: '坐姿腿弯举',
+    bodyPart: '腿部',
+    targetMuscles: ['腘绳肌'],
+    equipment: '坐姿腿弯举机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整靠背和腿垫，让膝盖对准转轴，固定大腿垫。',
+    steps: ['坐稳并抓住把手。', '向下弯曲膝盖，把脚跟带向身体下方。', '慢慢还原到腿部接近伸直。'],
+    breathing: '弯曲呼气，还原吸气。',
+    commonMistakes: ['大腿离开垫子', '脚尖乱晃', '重量片碰撞'],
+    safetyNotes: ['不要用过大重量拉扯膝盖后侧。'],
+  },
+  {
+    name: '髋外展机',
+    bodyPart: '腿部',
+    targetMuscles: ['臀中肌', '臀小肌'],
+    equipment: '髋外展机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '坐稳后让膝盖外侧贴住垫子，背部贴紧靠背。',
+    steps: ['核心收紧，双腿向外打开。', '打开到臀侧明显发力后短暂停顿。', '控制回到起点。'],
+    breathing: '打开呼气，回收吸气。',
+    commonMistakes: ['身体前后晃动', '幅度过小', '用膝盖硬顶'],
+    safetyNotes: ['髋部不适时减少范围。'],
+  },
+  {
+    name: '坐姿推肩',
+    bodyPart: '肩部',
+    targetMuscles: ['三角肌', '肱三头肌'],
+    equipment: '坐姿推肩机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整座椅，让把手起点接近耳朵或肩部高度，背部贴靠。',
+    steps: ['握住把手，手腕保持中立。', '向上推起到手臂接近伸直。', '慢慢下放到肩部附近。'],
+    breathing: '推起呼气，下放吸气。',
+    commonMistakes: ['耸肩', '腰部过度反弓', '手腕后折'],
+    safetyNotes: ['肩痛时不要硬推。'],
+  },
+  {
+    name: '坐姿侧平举机',
+    bodyPart: '肩部',
+    targetMuscles: ['三角肌中束'],
+    equipment: '侧平举机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '坐稳后让上臂外侧贴住垫子，肩膀保持下沉。',
+    steps: ['手臂从身体两侧向外抬起。', '抬到接近肩高后短暂停顿。', '缓慢还原，保持控制。'],
+    breathing: '抬起呼气，下放吸气。',
+    commonMistakes: ['耸肩代偿', '抬得过高', '身体摆动'],
+    safetyNotes: ['用轻重量找肩部发力感。'],
+  },
+  {
+    name: '反向蝴蝶机',
+    bodyPart: '肩部',
+    targetMuscles: ['三角肌后束', '上背部'],
+    equipment: '反向蝴蝶机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '面向靠垫坐下，胸口贴垫，把手与肩部大致同高。',
+    steps: ['手肘微弯，肩膀放松。', '双臂向身体两侧打开。', '控制回到起点，不要让重量片撞击。'],
+    breathing: '打开呼气，回收吸气。',
+    commonMistakes: ['耸肩', '手臂过度弯曲', '身体离开靠垫'],
+    safetyNotes: ['颈肩紧张时降低重量。'],
+  },
+  {
+    name: '绳索下压',
+    bodyPart: '手臂',
+    targetMuscles: ['肱三头肌'],
+    equipment: '龙门架绳索',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '把滑轮调到高位，双手握住绳索，手肘贴近身体两侧。',
+    steps: ['上臂保持稳定。', '向下压直到手臂接近伸直。', '慢慢回到前臂接近水平。'],
+    breathing: '下压呼气，还原吸气。',
+    commonMistakes: ['手肘前后移动', '身体下压借力', '手腕弯折'],
+    safetyNotes: ['不要用身体重量压绳索。'],
+  },
+  {
+    name: '牧师椅弯举机',
+    bodyPart: '手臂',
+    targetMuscles: ['肱二头肌'],
+    equipment: '牧师椅弯举机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整座椅，让上臂稳定贴住斜垫，手腕保持自然。',
+    steps: ['握住把手，手臂从接近伸展开始。', '弯曲手肘把把手带向身体。', '慢慢下放，不要完全放松。'],
+    breathing: '弯举呼气，下放吸气。',
+    commonMistakes: ['肩膀前顶', '下放过快', '手腕弯曲借力'],
+    safetyNotes: ['肘部不适时减少重量。'],
+  },
+  {
+    name: '绳索弯举',
+    bodyPart: '手臂',
+    targetMuscles: ['肱二头肌'],
+    equipment: '龙门架绳索',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '把滑轮调到低位，站稳后双手握住直杆或绳索。',
+    steps: ['上臂贴近身体。', '弯曲手肘把把手拉向胸前。', '控制下放到手臂伸展。'],
+    breathing: '弯举呼气，还原吸气。',
+    commonMistakes: ['身体后仰借力', '肘部前移过多', '下放失控'],
+    safetyNotes: ['站姿保持稳定，避免被重量拉动。'],
+  },
+  {
+    name: '器械卷腹',
+    bodyPart: '核心',
+    targetMuscles: ['腹直肌'],
+    equipment: '卷腹机',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '坐稳后调整胸垫或把手位置，让身体能自然向前卷曲。',
+    steps: ['骨盆保持稳定，腹部收紧。', '用腹部带动身体向前卷。', '慢慢回到起点，不要完全放松。'],
+    breathing: '卷起呼气，还原吸气。',
+    commonMistakes: ['用手臂猛拉', '脖子用力', '动作幅度过大'],
+    safetyNotes: ['腰部疼痛时停止练习。'],
+  },
+  {
+    name: '罗马椅背伸',
+    bodyPart: '核心',
+    targetMuscles: ['竖脊肌', '臀大肌', '腘绳肌'],
+    equipment: '罗马椅',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '调整髋部垫高度，让髋关节可以自然折叠，脚踝固定稳定。',
+    steps: ['双手抱胸，背部保持自然。', '从髋部折叠向下。', '用臀腿和下背控制抬回身体直线。'],
+    breathing: '抬起呼气，下放吸气。',
+    commonMistakes: ['腰部过度反弓', '快速甩动', '抬得过高'],
+    safetyNotes: ['腰伤或疼痛人群先咨询专业人士。'],
+  },
+  {
+    name: '绳索跪姿卷腹',
+    bodyPart: '核心',
+    targetMuscles: ['腹直肌', '腹斜肌'],
+    equipment: '龙门架绳索',
+    difficulty: '新手',
+    imageUrl: '',
+    setup: '滑轮调到高位，跪姿握住绳索，绳索靠近头部两侧。',
+    steps: ['髋部稳定，腹部收紧。', '像卷起上半身一样向下收缩腹部。', '慢慢回到起点。'],
+    breathing: '卷腹呼气，还原吸气。',
+    commonMistakes: ['用手臂拉绳', '臀部后坐过多', '腰部塌陷'],
+    safetyNotes: ['先用轻重量掌握卷腹轨迹。'],
+  },
+]
+
+export function hashPassword(password, salt = randomBytes(16).toString('hex')) {
+  const hash = scryptSync(password, salt, 32).toString('hex')
+  return `${salt}:${hash}`
+}
+
+export function verifyPassword(password, storedHash) {
+  const [salt, hash] = storedHash.split(':')
+  const candidate = scryptSync(password, salt, 32)
+  return timingSafeEqual(candidate, Buffer.from(hash, 'hex'))
+}
+
+export function openDatabase(dbPath = process.env.DB_PATH || join(__dirname, '..', 'data', 'fitness.db')) {
+  mkdirSync(dirname(dbPath), { recursive: true })
+  const db = new DatabaseSync(dbPath)
+  db.exec('PRAGMA foreign_keys = ON')
+  return db
+}
+
+export function initializeDatabase(db) {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS admins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS exercises (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      body_part TEXT NOT NULL,
+      target_muscles TEXT NOT NULL,
+      equipment TEXT NOT NULL,
+      difficulty TEXT NOT NULL,
+      image_url TEXT NOT NULL DEFAULT '',
+      setup TEXT NOT NULL,
+      steps TEXT NOT NULL,
+      breathing TEXT NOT NULL,
+      common_mistakes TEXT NOT NULL,
+      safety_notes TEXT NOT NULL,
+      enabled INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+  `)
+
+  const adminCount = db.prepare('SELECT COUNT(*) AS count FROM admins').get().count
+  if (adminCount === 0) {
+    db.prepare('INSERT INTO admins (username, password_hash) VALUES (?, ?)').run(
+      'admin',
+      hashPassword(process.env.ADMIN_PASSWORD || 'admin123'),
+    )
+  }
+
+  const exerciseCount = db.prepare('SELECT COUNT(*) AS count FROM exercises').get().count
+  if (exerciseCount === 0) {
+    const insert = db.prepare(`
+      INSERT INTO exercises (
+        name, body_part, target_muscles, equipment, difficulty, image_url,
+        setup, steps, breathing, common_mistakes, safety_notes, enabled
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `)
+
+    for (const exercise of seedExercises) {
+      insert.run(
+        exercise.name,
+        exercise.bodyPart,
+        JSON.stringify(exercise.targetMuscles),
+        exercise.equipment,
+        exercise.difficulty,
+        getImageUrl(exercise.name, exercise.imageUrl),
+        exercise.setup,
+        JSON.stringify(exercise.steps),
+        exercise.breathing,
+        JSON.stringify(exercise.commonMistakes),
+        JSON.stringify(exercise.safetyNotes),
+        1,
+      )
+    }
+  }
+
+  const updateImage = db.prepare('UPDATE exercises SET image_url = ? WHERE name = ? AND (image_url = ? OR image_url IS NULL)')
+  for (const [name, imageUrl] of Object.entries(exerciseImageUrls)) {
+    updateImage.run(imageUrl, name, '')
+  }
+}
