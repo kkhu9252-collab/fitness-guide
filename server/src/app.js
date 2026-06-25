@@ -21,6 +21,8 @@ function serializeExercise(row) {
     equipment: row.equipment,
     difficulty: row.difficulty,
     imageUrl: row.image_url,
+    videoUrl: row.video_url,
+    videoTips: parseJsonList(row.video_tips),
     setup: row.setup,
     steps: parseJsonList(row.steps),
     breathing: row.breathing,
@@ -55,6 +57,10 @@ function normalizeExercisePayload(payload) {
       equipment: payload.equipment.trim(),
       difficulty: payload.difficulty.trim(),
       imageUrl: typeof payload.imageUrl === 'string' ? payload.imageUrl.trim() : '',
+      videoUrl: typeof payload.videoUrl === 'string' ? payload.videoUrl.trim() : '',
+      videoTips: Array.isArray(payload.videoTips)
+        ? payload.videoTips.map((item) => String(item).trim()).filter(Boolean)
+        : [],
       setup: payload.setup.trim(),
       steps: payload.steps.map((item) => item.trim()).filter(Boolean),
       breathing: payload.breathing.trim(),
@@ -156,9 +162,9 @@ export function createApp({ db }) {
     const result = db
       .prepare(
         `INSERT INTO exercises (
-          name, body_part, target_muscles, equipment, difficulty, image_url,
+          name, body_part, target_muscles, equipment, difficulty, image_url, video_url, video_tips,
           setup, steps, breathing, common_mistakes, safety_notes, enabled
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .run(
         exercise.name,
@@ -167,6 +173,8 @@ export function createApp({ db }) {
         exercise.equipment,
         exercise.difficulty,
         exercise.imageUrl,
+        exercise.videoUrl,
+        JSON.stringify(exercise.videoTips),
         exercise.setup,
         JSON.stringify(exercise.steps),
         exercise.breathing,
@@ -199,6 +207,8 @@ export function createApp({ db }) {
         equipment = ?,
         difficulty = ?,
         image_url = ?,
+        video_url = ?,
+        video_tips = ?,
         setup = ?,
         steps = ?,
         breathing = ?,
@@ -214,6 +224,8 @@ export function createApp({ db }) {
       exercise.equipment,
       exercise.difficulty,
       exercise.imageUrl,
+      exercise.videoUrl,
+      JSON.stringify(exercise.videoTips),
       exercise.setup,
       JSON.stringify(exercise.steps),
       exercise.breathing,

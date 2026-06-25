@@ -229,8 +229,19 @@ onMounted(loadHome)
 
         <template v-else>
           <div class="detail-visual">
+            <video
+              v-if="selectedExercise.videoUrl"
+              class="exercise-video"
+              :src="selectedExercise.videoUrl"
+              :poster="selectedExercise.imageUrl"
+              controls
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
             <img
-              v-if="selectedExercise.imageUrl"
+              v-else-if="selectedExercise.imageUrl"
               class="exercise-photo"
               :src="selectedExercise.imageUrl"
               :alt="`${selectedExercise.name}动作示意图`"
@@ -264,6 +275,13 @@ onMounted(loadHome)
               <li v-for="step in selectedExercise.steps" :key="step">{{ step }}</li>
             </ol>
             <p class="breathing">{{ selectedExercise.breathing }}</p>
+          </div>
+
+          <div v-if="selectedExercise.videoTips?.length" class="detail-card video-tips">
+            <h2>视频动作要点</h2>
+            <ul>
+              <li v-for="tip in selectedExercise.videoTips" :key="tip">{{ tip }}</li>
+            </ul>
           </div>
 
           <div class="detail-card">

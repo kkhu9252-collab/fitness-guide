@@ -231,6 +231,11 @@ onMounted(loadAdminExercises)
           </label>
 
           <label>
+            <span>视频地址（可先留空）</span>
+            <input v-model="form.videoUrl" placeholder="/exercise-videos/seated-chest-press.mp4" />
+          </label>
+
+          <label>
             <span>目标肌群（每行一个）</span>
             <textarea v-model="form.targetMuscles" required rows="3"></textarea>
           </label>
@@ -241,6 +246,10 @@ onMounted(loadAdminExercises)
           <label>
             <span>动作步骤（每行一步）</span>
             <textarea v-model="form.steps" required rows="5"></textarea>
+          </label>
+          <label>
+            <span>视频动作要点（每行一个，可先留空）</span>
+            <textarea v-model="form.videoTips" rows="3"></textarea>
           </label>
           <label>
             <span>呼吸提示</span>

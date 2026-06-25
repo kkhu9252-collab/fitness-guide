@@ -15,6 +15,7 @@ function withPublicAssets(exercise) {
   return {
     ...exercise,
     imageUrl: publicPath(exercise.imageUrl),
+    videoUrl: publicPath(exercise.videoUrl),
   }
 }
 

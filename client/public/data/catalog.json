@@ -20,6 +20,8 @@
       "equipment": "坐姿推胸机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/seated-chest-press.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整座椅，让把手与胸部中线接近同高，背部贴紧靠垫。",
       "steps": [
         "双脚踩稳地面，肩胛微微后收。",
@@ -48,6 +50,8 @@
       "equipment": "蝴蝶机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/pec-deck-fly.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整座椅，让上臂与肩部大致同高，胸口打开但不要过度后仰。",
       "steps": [
         "背部贴紧靠垫，双手或前臂贴住把手。",
@@ -77,6 +81,8 @@
       "equipment": "上斜推胸机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/incline-chest-press.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "坐稳后让把手位于上胸附近，肩胛后收，腰背自然贴靠。",
       "steps": [
         "握紧把手，手肘略低于肩。",
@@ -106,6 +112,8 @@
       "equipment": "高位下拉器",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/lat-pulldown.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整腿垫压住大腿，坐稳后双手略宽于肩握杠。",
       "steps": [
         "挺胸坐直，肩膀下沉。",
@@ -135,6 +143,8 @@
       "equipment": "坐姿划船机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/seated-row.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "脚踩踏板，膝盖微弯，背部保持自然挺直。",
       "steps": [
         "肩膀放松，双臂向前伸展。",
@@ -163,6 +173,8 @@
       "equipment": "辅助引体向上机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/assisted-pull-up.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "选择合适辅助重量，辅助越大动作越轻松，双手握稳把手。",
       "steps": [
         "膝盖跪在辅助垫上，身体保持稳定。",
@@ -192,6 +204,8 @@
       "equipment": "腿举机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/leg-press.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "背部贴紧靠垫，双脚与肩同宽踩在踏板中部。",
       "steps": [
         "解锁安全把手，膝盖对准脚尖。",
@@ -219,6 +233,8 @@
       "equipment": "腿屈伸机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/leg-extension.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整靠背和滚垫，让膝关节对准器械转轴，滚垫压在脚踝上方。",
       "steps": [
         "坐稳抓住把手。",
@@ -246,6 +262,8 @@
       "equipment": "俯卧腿弯举机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/lying-leg-curl.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "趴在垫上，让膝盖接近转轴，滚垫放在脚踝后方。",
       "steps": [
         "髋部贴紧垫子。",
@@ -273,6 +291,8 @@
       "equipment": "坐姿腿弯举机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/seated-leg-curl.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整靠背和腿垫，让膝盖对准转轴，固定大腿垫。",
       "steps": [
         "坐稳并抓住把手。",
@@ -301,6 +321,8 @@
       "equipment": "髋外展机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/hip-abduction.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "坐稳后让膝盖外侧贴住垫子，背部贴紧靠背。",
       "steps": [
         "核心收紧，双腿向外打开。",
@@ -329,6 +351,8 @@
       "equipment": "坐姿推肩机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/shoulder-press.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整座椅，让把手起点接近耳朵或肩部高度，背部贴靠。",
       "steps": [
         "握住把手，手腕保持中立。",
@@ -356,6 +380,8 @@
       "equipment": "侧平举机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/lateral-raise-machine.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "坐稳后让上臂外侧贴住垫子，肩膀保持下沉。",
       "steps": [
         "手臂从身体两侧向外抬起。",
@@ -384,6 +410,8 @@
       "equipment": "反向蝴蝶机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/reverse-pec-deck.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "面向靠垫坐下，胸口贴垫，把手与肩部大致同高。",
       "steps": [
         "手肘微弯，肩膀放松。",
@@ -411,6 +439,8 @@
       "equipment": "龙门架绳索",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/cable-pushdown.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "把滑轮调到高位，双手握住绳索，手肘贴近身体两侧。",
       "steps": [
         "上臂保持稳定。",
@@ -438,6 +468,8 @@
       "equipment": "牧师椅弯举机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/preacher-curl-machine.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整座椅，让上臂稳定贴住斜垫，手腕保持自然。",
       "steps": [
         "握住把手，手臂从接近伸展开始。",
@@ -465,6 +497,8 @@
       "equipment": "龙门架绳索",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/cable-curl.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "把滑轮调到低位，站稳后双手握住直杆或绳索。",
       "steps": [
         "上臂贴近身体。",
@@ -492,6 +526,8 @@
       "equipment": "卷腹机",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/ab-crunch-machine.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "坐稳后调整胸垫或把手位置，让身体能自然向前卷曲。",
       "steps": [
         "骨盆保持稳定，腹部收紧。",
@@ -521,6 +557,8 @@
       "equipment": "罗马椅",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/roman-chair-back-extension.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "调整髋部垫高度，让髋关节可以自然折叠，脚踝固定稳定。",
       "steps": [
         "双手抱胸，背部保持自然。",
@@ -549,6 +587,8 @@
       "equipment": "龙门架绳索",
       "difficulty": "新手",
       "imageUrl": "/exercise-images/cable-kneeling-crunch.svg",
+      "videoUrl": "",
+      "videoTips": [],
       "setup": "滑轮调到高位，跪姿握住绳索，绳索靠近头部两侧。",
       "steps": [
         "髋部稳定，腹部收紧。",

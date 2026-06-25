@@ -406,6 +406,16 @@ button {
   background: #173526;
 }
 
+.exercise-video {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: block;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  background: #0f241a;
+  object-fit: cover;
+}
+
 .machine-frame {
   position: relative;
   height: 150px;
@@ -527,6 +537,11 @@ button {
   border-radius: 8px;
   background: #f1f7f2;
   color: #365143;
+}
+
+.video-tips {
+  border-color: #c9e6f2;
+  background: #f3fbfe;
 }
 
 .warning {

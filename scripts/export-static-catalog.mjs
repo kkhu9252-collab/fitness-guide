@@ -31,6 +31,8 @@ const exercises = db
     equipment: row.equipment,
     difficulty: row.difficulty,
     imageUrl: row.image_url,
+    videoUrl: row.video_url,
+    videoTips: parseJsonList(row.video_tips),
     setup: row.setup,
     steps: parseJsonList(row.steps),
     breathing: row.breathing,

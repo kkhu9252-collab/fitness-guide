@@ -333,6 +333,8 @@ export function initializeDatabase(db) {
       equipment TEXT NOT NULL,
       difficulty TEXT NOT NULL,
       image_url TEXT NOT NULL DEFAULT '',
+      video_url TEXT NOT NULL DEFAULT '',
+      video_tips TEXT NOT NULL DEFAULT '[]',
       setup TEXT NOT NULL,
       steps TEXT NOT NULL,
       breathing TEXT NOT NULL,
@@ -343,6 +345,17 @@ export function initializeDatabase(db) {
       updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
   `)
+
+  for (const statement of [
+    "ALTER TABLE exercises ADD COLUMN video_url TEXT NOT NULL DEFAULT ''",
+    "ALTER TABLE exercises ADD COLUMN video_tips TEXT NOT NULL DEFAULT '[]'",
+  ]) {
+    try {
+      db.exec(statement)
+    } catch (error) {
+      if (!String(error.message).includes('duplicate column name')) throw error
+    }
+  }
 
   const adminCount = db.prepare('SELECT COUNT(*) AS count FROM admins').get().count
   if (adminCount === 0) {
@@ -356,9 +369,9 @@ export function initializeDatabase(db) {
   if (exerciseCount === 0) {
     const insert = db.prepare(`
       INSERT INTO exercises (
-        name, body_part, target_muscles, equipment, difficulty, image_url,
+        name, body_part, target_muscles, equipment, difficulty, image_url, video_url, video_tips,
         setup, steps, breathing, common_mistakes, safety_notes, enabled
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `)
 
     for (const exercise of seedExercises) {
@@ -369,6 +382,8 @@ export function initializeDatabase(db) {
         exercise.equipment,
         exercise.difficulty,
         getImageUrl(exercise.name, exercise.imageUrl),
+        exercise.videoUrl || '',
+        JSON.stringify(exercise.videoTips || []),
         exercise.setup,
         JSON.stringify(exercise.steps),
         exercise.breathing,

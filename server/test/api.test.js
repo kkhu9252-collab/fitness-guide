@@ -115,6 +115,8 @@ describe('admin exercise API', () => {
         equipment: '测试器械',
         difficulty: '新手',
         imageUrl: '',
+        videoUrl: '/exercise-videos/test-machine.mp4',
+        videoTips: ['侧面镜头观察动作轨迹', '每次还原到同一位置'],
         setup: '调整座椅到把手与胸部同高。',
         steps: ['握住把手', '向前推起', '慢慢还原'],
         breathing: '推起呼气，还原吸气。',
@@ -124,6 +126,8 @@ describe('admin exercise API', () => {
       }),
     })
     assert.equal(created.response.status, 201)
+    assert.equal(created.body.exercise.videoUrl, '/exercise-videos/test-machine.mp4')
+    assert.deepEqual(created.body.exercise.videoTips, ['侧面镜头观察动作轨迹', '每次还原到同一位置'])
 
     const updated = await request(`/api/admin/exercises/${created.body.exercise.id}`, {
       method: 'PUT',
