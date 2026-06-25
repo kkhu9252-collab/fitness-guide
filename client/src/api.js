@@ -1,11 +1,30 @@
 import { findStaticExercise, listStaticBodyParts, listStaticExercises } from './staticCatalog.js'
 
 const API_BASE = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? 'http://localhost:3000' : '')
+const PUBLIC_BASE = import.meta.env.BASE_URL || '/'
 let staticCatalogPromise = null
+
+function publicPath(path) {
+  if (!path || /^(https?:|data:|blob:)/.test(path)) return path
+  const base = PUBLIC_BASE.endsWith('/') ? PUBLIC_BASE : `${PUBLIC_BASE}/`
+  return path.startsWith('/') ? `${base}${path.slice(1)}` : `${base}${path}`
+}
+
+function withPublicAssets(exercise) {
+  if (!exercise) return exercise
+  return {
+    ...exercise,
+    imageUrl: publicPath(exercise.imageUrl),
+  }
+}
+
+function withPublicAssetList(exercises) {
+  return exercises.map(withPublicAssets)
+}
 
 async function getStaticCatalog() {
   if (!staticCatalogPromise) {
-    staticCatalogPromise = fetch('/data/catalog.json').then((response) => {
+    staticCatalogPromise = fetch(publicPath('/data/catalog.json')).then((response) => {
       if (!response.ok) throw new Error('Static catalog is unavailable')
       return response.json()
     })
@@ -45,22 +64,22 @@ export async function fetchExercises(params = {}) {
   const suffix = query.toString() ? `?${query}` : ''
   try {
     const data = await getJson(`/api/exercises${suffix}`)
-    return data.exercises
+    return withPublicAssetList(data.exercises)
   } catch (error) {
     if (import.meta.env.DEV || API_BASE) throw error
-    return listStaticExercises(await getStaticCatalog(), params)
+    return withPublicAssetList(listStaticExercises(await getStaticCatalog(), params))
   }
 }
 
 export async function fetchExercise(id) {
   try {
     const data = await getJson(`/api/exercises/${id}`)
-    return data.exercise
+    return withPublicAssets(data.exercise)
   } catch (error) {
     if (import.meta.env.DEV || API_BASE) throw error
     const exercise = findStaticExercise(await getStaticCatalog(), id)
     if (!exercise) throw error
-    return exercise
+    return withPublicAssets(exercise)
   }
 }
 

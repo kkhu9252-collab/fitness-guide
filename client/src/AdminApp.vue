@@ -12,6 +12,7 @@ import { createEmptyExerciseForm, exerciseToForm, formToExercisePayload } from '
 const bodyParts = ['胸部', '背部', '腿部', '肩部', '手臂', '核心']
 const difficulties = ['新手', '进阶', '高阶']
 
+const publicHomePath = import.meta.env.BASE_URL || '/'
 const token = ref(localStorage.getItem('fitness-admin-token') || '')
 const username = ref('admin')
 const password = ref('')
@@ -158,7 +159,7 @@ onMounted(loadAdminExercises)
           <p>{{ exercises.length }} 个动作，{{ visibleCount }} 个显示，{{ hiddenCount }} 个隐藏</p>
         </div>
         <div class="admin-actions">
-          <a class="ghost-button" href="/">看前台</a>
+          <a class="ghost-button" :href="publicHomePath">看前台</a>
           <button class="ghost-button" type="button" @click="logout">退出</button>
         </div>
       </header>
