@@ -31,8 +31,99 @@ const exerciseImageUrls = {
   绳索跪姿卷腹: '/exercise-images/cable-kneeling-crunch.svg',
 }
 
+export const exerciseVideoMetadata = {
+  坐姿推胸: {
+    url: '/exercise-videos/seated-chest-press-generated.mp4',
+    tips: ['背部贴紧靠垫', '肩膀保持下沉', '推起和还原都保持控制'],
+  },
+  蝴蝶机夹胸: {
+    url: '/exercise-videos/pec-deck-fly-generated.mp4',
+    tips: ['上臂与肩部大致同高', '向中线夹合时感受胸部收缩', '打开时不要过度拉扯肩关节'],
+  },
+  上斜推胸机: {
+    url: '/exercise-videos/incline-chest-press-generated.mp4',
+    tips: ['把手起点靠近上胸', '沿斜向轨迹推起', '下放时肩膀不要前顶'],
+  },
+  高位下拉: {
+    url: '/exercise-videos/lat-pulldown-generated.mp4',
+    tips: ['挺胸坐直', '先让肩膀下沉再下拉', '横杠拉向上胸位置'],
+  },
+  坐姿划船: {
+    url: '/exercise-videos/seated-row-anatomy-generated.mp4',
+    tips: ['背部保持自然挺直', '手肘贴近身体向后拉', '还原时不要耸肩'],
+  },
+  辅助引体向上: {
+    url: '/exercise-videos/assisted-pull-up-generated.mp4',
+    tips: ['身体保持稳定', '拉起前先让肩膀下沉', '下降阶段慢慢控制'],
+  },
+  腿举机: {
+    url: '/exercise-videos/leg-press-generated.mp4',
+    tips: ['背部贴紧靠垫', '膝盖始终对准脚尖', '蹬起时膝盖不要完全锁死'],
+  },
+  腿屈伸: {
+    url: '/exercise-videos/leg-extension-generated.mp4',
+    tips: ['膝盖对准器械转轴', '顶部短暂停顿', '下放时不要让重量片猛烈碰撞'],
+  },
+  俯卧腿弯举: {
+    url: '/exercise-videos/lying-leg-curl-generated.mp4',
+    tips: ['髋部贴紧垫子', '用腘绳肌带动弯曲膝盖', '还原阶段保持慢速'],
+  },
+  坐姿腿弯举: {
+    url: '/exercise-videos/seated-leg-curl-generated.mp4',
+    tips: ['大腿固定在垫下', '脚跟向身体下方带', '还原时保持腿后侧张力'],
+  },
+  髋外展机: {
+    url: '/exercise-videos/hip-abduction-generated.mp4',
+    tips: ['背部贴紧靠背', '双腿向外打开时保持核心稳定', '回收阶段不要突然放松'],
+  },
+  坐姿推肩: {
+    url: '/exercise-videos/shoulder-press-generated.mp4',
+    tips: ['背部贴靠', '手腕保持中立', '推起时避免耸肩'],
+  },
+  坐姿侧平举机: {
+    url: '/exercise-videos/lateral-raise-machine-generated.mp4',
+    tips: ['上臂贴住垫子', '抬到接近肩高即可', '全程保持肩膀下沉'],
+  },
+  反向蝴蝶机: {
+    url: '/exercise-videos/reverse-pec-deck-generated.mp4',
+    tips: ['胸口贴住靠垫', '手肘保持微弯', '打开时感受肩后束发力'],
+  },
+  绳索下压: {
+    url: '/exercise-videos/cable-pushdown-generated.mp4',
+    tips: ['手肘贴近身体两侧', '只让前臂移动', '下压到底部时短暂停顿'],
+  },
+  牧师椅弯举机: {
+    url: '/exercise-videos/preacher-curl-machine-generated.mp4',
+    tips: ['上臂稳定贴住斜垫', '弯举时不要让肩膀前顶', '下放时不要完全放松'],
+  },
+  绳索弯举: {
+    url: '/exercise-videos/cable-curl-generated.mp4',
+    tips: ['上臂贴近身体', '弯举时身体不要后仰', '下放阶段保持控制'],
+  },
+  器械卷腹: {
+    url: '/exercise-videos/ab-crunch-machine-generated.mp4',
+    tips: ['骨盆保持稳定', '用腹部带动身体卷起', '还原时不要完全放松'],
+  },
+  罗马椅背伸: {
+    url: '/exercise-videos/roman-chair-back-extension-generated.mp4',
+    tips: ['从髋部折叠', '抬起到身体接近直线即可', '不要过度反弓腰部'],
+  },
+  绳索跪姿卷腹: {
+    url: '/exercise-videos/cable-kneeling-crunch-generated.mp4',
+    tips: ['髋部保持稳定', '像卷起上半身一样收缩腹部', '不要用手臂拉绳'],
+  },
+}
+
 function getImageUrl(name, fallback = '') {
   return exerciseImageUrls[name] || fallback
+}
+
+function getVideoMetadata(name, fallbackUrl = '', fallbackTips = []) {
+  const metadata = exerciseVideoMetadata[name]
+  return {
+    url: metadata?.url || fallbackUrl,
+    tips: metadata?.tips || fallbackTips,
+  }
 }
 
 const seedExercises = [
@@ -375,6 +466,7 @@ export function initializeDatabase(db) {
     `)
 
     for (const exercise of seedExercises) {
+      const videoMetadata = getVideoMetadata(exercise.name, exercise.videoUrl, exercise.videoTips)
       insert.run(
         exercise.name,
         exercise.bodyPart,
@@ -382,8 +474,8 @@ export function initializeDatabase(db) {
         exercise.equipment,
         exercise.difficulty,
         getImageUrl(exercise.name, exercise.imageUrl),
-        exercise.videoUrl || '',
-        JSON.stringify(exercise.videoTips || []),
+        videoMetadata.url,
+        JSON.stringify(videoMetadata.tips),
         exercise.setup,
         JSON.stringify(exercise.steps),
         exercise.breathing,
