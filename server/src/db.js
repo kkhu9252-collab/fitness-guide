@@ -9,7 +9,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export const bodyParts = ['胸部', '背部', '腿部', '肩部', '手臂', '核心']
 
 const exerciseImageUrls = {
-  坐姿推胸: '/exercise-images/seated-chest-press.svg',
+  坐姿推胸: '/exercise-images/seated-chest-press-cover.jpg',
   蝴蝶机夹胸: '/exercise-images/pec-deck-fly.svg',
   上斜推胸机: '/exercise-images/incline-chest-press.svg',
   高位下拉: '/exercise-images/lat-pulldown.svg',
