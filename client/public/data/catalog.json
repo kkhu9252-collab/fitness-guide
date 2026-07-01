@@ -19,7 +19,7 @@
       ],
       "equipment": "坐姿推胸机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/seated-chest-press-cover.jpg",
+      "imageUrl": "/equipment-covers/seated-chest-press.jpg",
       "videoUrl": "/exercise-videos/seated-chest-press-generated.mp4",
       "videoTips": [
         "背部贴紧靠垫",
@@ -53,7 +53,7 @@
       ],
       "equipment": "蝴蝶机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/pec-deck-fly.svg",
+      "imageUrl": "/equipment-covers/pec-deck-fly.jpg",
       "videoUrl": "/exercise-videos/pec-deck-fly-generated.mp4",
       "videoTips": [
         "上臂与肩部大致同高",
@@ -88,7 +88,7 @@
       ],
       "equipment": "上斜推胸机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/incline-chest-press.svg",
+      "imageUrl": "/equipment-covers/incline-chest-press.jpg",
       "videoUrl": "/exercise-videos/incline-chest-press-generated.mp4",
       "videoTips": [
         "把手起点靠近上胸",
@@ -123,7 +123,7 @@
       ],
       "equipment": "高位下拉器",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/lat-pulldown.svg",
+      "imageUrl": "/equipment-covers/lat-pulldown.jpg",
       "videoUrl": "/exercise-videos/lat-pulldown-generated.mp4",
       "videoTips": [
         "挺胸坐直",
@@ -158,7 +158,7 @@
       ],
       "equipment": "坐姿划船机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/seated-row.svg",
+      "imageUrl": "/equipment-covers/seated-row.jpg",
       "videoUrl": "/exercise-videos/seated-row-anatomy-generated.mp4",
       "videoTips": [
         "背部保持自然挺直",
@@ -192,7 +192,7 @@
       ],
       "equipment": "辅助引体向上机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/assisted-pull-up.svg",
+      "imageUrl": "/equipment-covers/assisted-pull-up.jpg",
       "videoUrl": "/exercise-videos/assisted-pull-up-generated.mp4",
       "videoTips": [
         "身体保持稳定",
@@ -227,7 +227,7 @@
       ],
       "equipment": "腿举机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/leg-press.svg",
+      "imageUrl": "/equipment-covers/leg-press.jpg",
       "videoUrl": "/exercise-videos/leg-press-generated.mp4",
       "videoTips": [
         "背部贴紧靠垫",
@@ -260,7 +260,7 @@
       ],
       "equipment": "腿屈伸机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/leg-extension.svg",
+      "imageUrl": "/equipment-covers/leg-extension.jpg",
       "videoUrl": "/exercise-videos/leg-extension-generated.mp4",
       "videoTips": [
         "膝盖对准器械转轴",
@@ -293,7 +293,7 @@
       ],
       "equipment": "俯卧腿弯举机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/lying-leg-curl.svg",
+      "imageUrl": "/equipment-covers/lying-leg-curl.jpg",
       "videoUrl": "/exercise-videos/lying-leg-curl-generated.mp4",
       "videoTips": [
         "髋部贴紧垫子",
@@ -326,7 +326,7 @@
       ],
       "equipment": "坐姿腿弯举机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/seated-leg-curl.svg",
+      "imageUrl": "/equipment-covers/seated-leg-curl.jpg",
       "videoUrl": "/exercise-videos/seated-leg-curl-generated.mp4",
       "videoTips": [
         "大腿固定在垫下",
@@ -360,7 +360,7 @@
       ],
       "equipment": "髋外展机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/hip-abduction.svg",
+      "imageUrl": "/equipment-covers/hip-abduction.jpg",
       "videoUrl": "/exercise-videos/hip-abduction-generated.mp4",
       "videoTips": [
         "背部贴紧靠背",
@@ -394,7 +394,7 @@
       ],
       "equipment": "坐姿推肩机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/shoulder-press.svg",
+      "imageUrl": "/equipment-covers/shoulder-press.jpg",
       "videoUrl": "/exercise-videos/shoulder-press-generated.mp4",
       "videoTips": [
         "背部贴靠",
@@ -427,7 +427,7 @@
       ],
       "equipment": "侧平举机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/lateral-raise-machine.svg",
+      "imageUrl": "/equipment-covers/lateral-raise-machine.jpg",
       "videoUrl": "/exercise-videos/lateral-raise-machine-generated.mp4",
       "videoTips": [
         "上臂贴住垫子",
@@ -461,7 +461,7 @@
       ],
       "equipment": "反向蝴蝶机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/reverse-pec-deck.svg",
+      "imageUrl": "/equipment-covers/reverse-pec-deck.jpg",
       "videoUrl": "/exercise-videos/reverse-pec-deck-generated.mp4",
       "videoTips": [
         "胸口贴住靠垫",
@@ -494,7 +494,7 @@
       ],
       "equipment": "龙门架绳索",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/cable-pushdown.svg",
+      "imageUrl": "/equipment-covers/cable-pushdown.jpg",
       "videoUrl": "/exercise-videos/cable-pushdown-generated.mp4",
       "videoTips": [
         "手肘贴近身体两侧",
@@ -527,7 +527,7 @@
       ],
       "equipment": "牧师椅弯举机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/preacher-curl-machine.svg",
+      "imageUrl": "/equipment-covers/preacher-curl-machine.jpg",
       "videoUrl": "/exercise-videos/preacher-curl-machine-generated.mp4",
       "videoTips": [
         "上臂稳定贴住斜垫",
@@ -560,7 +560,7 @@
       ],
       "equipment": "龙门架绳索",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/cable-curl.svg",
+      "imageUrl": "/equipment-covers/cable-curl.jpg",
       "videoUrl": "/exercise-videos/cable-curl-generated.mp4",
       "videoTips": [
         "上臂贴近身体",
@@ -593,7 +593,7 @@
       ],
       "equipment": "卷腹机",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/ab-crunch-machine.svg",
+      "imageUrl": "/equipment-covers/ab-crunch-machine.jpg",
       "videoUrl": "/exercise-videos/ab-crunch-machine-generated.mp4",
       "videoTips": [
         "骨盆保持稳定",
@@ -628,7 +628,7 @@
       ],
       "equipment": "罗马椅",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/roman-chair-back-extension.svg",
+      "imageUrl": "/equipment-covers/roman-chair-back-extension.jpg",
       "videoUrl": "/exercise-videos/roman-chair-back-extension-generated.mp4",
       "videoTips": [
         "从髋部折叠",
@@ -662,7 +662,7 @@
       ],
       "equipment": "龙门架绳索",
       "difficulty": "新手",
-      "imageUrl": "/exercise-images/cable-kneeling-crunch.svg",
+      "imageUrl": "/equipment-covers/cable-kneeling-crunch.jpg",
       "videoUrl": "/exercise-videos/cable-kneeling-crunch-generated.mp4",
       "videoTips": [
         "髋部保持稳定",
